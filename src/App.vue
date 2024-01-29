@@ -22,12 +22,21 @@ export default {
       ],
       newTask: "",
       error: false,
+      fullList: false,
     }
 
   },
   methods: {
     deleteTask(i) {
       this.tasks.splice(i, 1);
+      if (this.tasks.length == 0) {
+        this.fullList = false;
+      };
+      this.tasks.forEach(task => {
+        if (task.done == false) {
+          this.fullList = false;
+        } else { this.fullList = true };
+      });
     },
     addTask() {
       if (this.newTask != "") {
@@ -46,11 +55,27 @@ export default {
         } else { this.error = "Your task is already in list" };
       } else { this.error = "You have to type something!" };
     },
-    changeDone(i) {
+    allDone(i) {
       if (this.tasks[i].done == true) {
         this.tasks[i].done = false;
       } else { this.tasks[i].done = true };
+      let count = 0;
+      this.tasks.forEach(task => {
+        if (task.done == true) {
+          count += 1;
+        };
+      });
+
+      if (count == this.tasks.length) {
+        this.fullList = true;
+      } else { this.fullList = false };
+      console.log(count);
+      console.log(this.tasks.length);
     },
+    emptyList() {
+      this.tasks = [];
+      this.fullList = false;
+    }
   }
 }
 </script>
@@ -68,13 +93,15 @@ export default {
 
     <ul class="list-group">
       <li class="list-group-item d-flex" v-for="( task, index ) in  tasks ">
-        <input class="form-check-input me-3" type="checkbox" v-model="task.done">
+        <input class="check form-check-input me-3" type="checkbox" v-model="task.done" @click="allDone(index)">
         <div style="width: 100%;" class="d-flex justify-content-between align.items-center">
-          <div :class="{ done: task.done }" @click="changeDone(index)">{{ task.text }}</div>
-          <div @click="deleteTask(index)"> x</div>
+          <div class="task" :class="{ done: task.done }" @click="allDone(index)">{{ task.text
+          }}</div>
+          <div class="delete" @click="deleteTask(index)"> x</div>
         </div>
       </li>
     </ul>
+    <button v-if="fullList" class="btn btn-primary mt-5" @click="emptyList">Empty the list</button>
     <h3 v-if="tasks == ''">You have nothing else to do!</h3>
   </div>
 </template>
@@ -93,5 +120,16 @@ export default {
 
 .done {
   text-decoration: line-through;
+  color: #198754;
+}
+
+.delete:hover {
+  color: #dc3545;
+}
+
+.check,
+.task,
+.delete {
+  cursor: pointer;
 }
 </style>
