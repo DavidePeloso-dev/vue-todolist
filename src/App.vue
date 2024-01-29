@@ -56,19 +56,23 @@ export default {
 </script>
 
 <template>
-  <div class="text-center">
-    <h1>Todo List</h1>
-
-    <input v-model="newTask" @keyup.enter="addTask" type="text" name="newTask" id="newTask"
-      placeholder="Insert your new Task">
-    <button @click="addTask">Add</button>
+  <div class="container text-center col-lg-6 my-5">
+    <h1 class="text-primary">Todo List</h1>
+    <div class="input-group mb-3 ms-auto">
+      <input class="form-control" v-model="newTask" @keyup.enter="addTask" type="text" name="newTask" id="newTask"
+        placeholder="Insert your new Task">
+      <button class="btn btn-outline-primary" @click="addTask">Add</button>
+    </div>
 
     <p class="text-danger" v-if="error">{{ error }}</p>
 
-    <ul>
-      <li v-for="( task, index ) in  tasks ">
-        <span :class="{ done: task.done }" @click="changeDone(index)">{{ task.text }}</span>
-        <span @click="deleteTask(index)"> x</span>
+    <ul class="list-group">
+      <li class="list-group-item d-flex" v-for="( task, index ) in  tasks ">
+        <input class="form-check-input me-3" type="checkbox" v-model="task.done">
+        <div style="width: 100%;" class="d-flex justify-content-between align.items-center">
+          <div :class="{ done: task.done }" @click="changeDone(index)">{{ task.text }}</div>
+          <div @click="deleteTask(index)"> x</div>
+        </div>
       </li>
     </ul>
     <h3 v-if="tasks == ''">You have nothing else to do!</h3>
