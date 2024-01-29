@@ -46,6 +46,11 @@ export default {
         } else { this.error = "Your task is already in list" };
       } else { this.error = "You have to type something!" };
     },
+    changeDone(i) {
+      if (this.tasks[i].done == true) {
+        this.tasks[i].done = false;
+      } else { this.tasks[i].done = true };
+    },
   }
 }
 </script>
@@ -62,10 +67,11 @@ export default {
 
     <ul>
       <li v-for="( task, index ) in  tasks ">
-        <span :class="{ done: task.done }">{{ task.text }}</span>
+        <span :class="{ done: task.done }" @click="changeDone(index)">{{ task.text }}</span>
         <span @click="deleteTask(index)"> x</span>
       </li>
     </ul>
+    <h3 v-if="tasks == ''">You have nothing else to do!</h3>
   </div>
 </template>
 
