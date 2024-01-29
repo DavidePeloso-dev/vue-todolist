@@ -32,10 +32,15 @@ export default {
       if (this.tasks.length == 0) {
         this.fullList = false;
       };
-      this.tasks.forEach(task => {
+      let elList = []
+      this.tasks.forEach((task, index) => {
         if (task.done == false) {
-          this.fullList = false;
-        } else { this.fullList = true };
+          elList.push(index);
+        };
+        if (elList == "") {
+          this.fullList = true;
+        } else { this.fullList = false };
+        console.log(elList);
       });
     },
     addTask() {
@@ -51,6 +56,7 @@ export default {
           this.error = false;
           this.tasks.push(newTaskEl);
           this.newTask = "";
+          this.fullList = false;
           console.log(this.tasks);
         } else { this.error = "Your task is already in list" };
       } else { this.error = "You have to type something!" };
