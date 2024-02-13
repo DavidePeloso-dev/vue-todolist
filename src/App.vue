@@ -101,8 +101,7 @@ export default {
       <li class="list-group-item d-flex" v-for="( task, index ) in  tasks ">
         <input class="check form-check-input me-3" type="checkbox" v-model="task.done" @click="allDone(index)">
         <div style="width: 100%;" class="d-flex justify-content-between align.items-center">
-          <div class="task" :class="{ done: task.done }" @click="allDone(index)">{{ task.text
-          }}</div>
+          <div class="task" :class="{ done: task.done }" @click="allDone(index)">{{ task.text }}</div>
           <div class="delete" @click="deleteTask(index)"> x</div>
         </div>
       </li>
